@@ -17,7 +17,12 @@ class BookFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->sentence(),
+            'writer' => fake()->name(),
+            'cover_image' => "https://images-na.ssl-images-amazon.com/images/I/51Ga5GuElyL._AC_SX184_.jpg",
+            'description' => fake()->sentence(),
+            'rate' => fake()->randomFloat(2, 0, 5),
+
         ];
     }
 }
