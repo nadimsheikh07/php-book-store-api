@@ -79,6 +79,42 @@ class UserController extends Controller
         return response()->json(['message' => 'User deleted successfully']);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/auth/signup",
+     *     summary="User Registration API",
+     *     @OA\Parameter(
+     *         name="name",
+     *         in="query",
+     *         description="Name",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="email",
+     *         in="query",
+     *         description="Email",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="password",
+     *         in="query",
+     *         description="Password",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="password_confirmation",
+     *         in="query",
+     *         description="Password Confirmation",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(response="200", description="Login successful"),
+     *     @OA\Response(response="401", description="Invalid credentials")
+     * )
+     */
     public function signup(SignUpRequest $request)
     {
         // Validate the incoming request data
@@ -98,7 +134,7 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/signin",
+     *     path="/api/auth/signin",
      *     summary="Authenticate user and generate JWT token",
      *     @OA\Parameter(
      *         name="email",

@@ -5,10 +5,62 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/signin": {
+        "/api/auth/signup": {
+            "post": {
+                "summary": "User Registration API",
+                "operationId": "f3597ae6e0576587beb5ca1090966ce0",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Password",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password_confirmation",
+                        "in": "query",
+                        "description": "Password Confirmation",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Login successful"
+                    },
+                    "401": {
+                        "description": "Invalid credentials"
+                    }
+                }
+            }
+        },
+        "/api/auth/signin": {
             "post": {
                 "summary": "Authenticate user and generate JWT token",
-                "operationId": "928a0fa5f93ca6c37c3a67cce725d692",
+                "operationId": "f3453a8999277da87475c26a4782b04d",
                 "parameters": [
                     {
                         "name": "email",
