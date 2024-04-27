@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\UserLike;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
@@ -12,7 +11,6 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-
     public function index(Request $request)
     {
         $query = User::query();
@@ -43,15 +41,6 @@ class UserController extends Controller
         $users = $query->paginate($pageSize);
 
         return response()->json($users);
-    }
-
-    public function recommendedUsers()
-    {
-        $recommendedUsers = User::withCount('likes')
-            ->orderByDesc('likes_count')
-            ->paginate(10);
-
-        return response()->json($recommendedUsers);
     }
 
     public function store(Request $request)
@@ -140,33 +129,12 @@ class UserController extends Controller
         if (Auth::attempt(['email' => $validatedData['email'], 'password' => $validatedData['password']])) {
             // Authentication successful
             $user = Auth::user();
-            $token = $user->createToken('YourAppName')->accessToken;
+            $token = $user->createToken('UserAuth')->accessToken;
 
             return response()->json(['message' => 'User signed in successfully', 'user' => $user, 'token' => $token]);
         } else {
             // Authentication failed
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
-    }
-
-    public function like($id)
-    {
-        $user = request()->user(); // Assuming the authenticated user is the one performing the like action
-        $user->load('likes');
-
-        $likedUser = User::findOrFail($id);
-
-        // Check if the user has already liked the liked user
-        if ($user->likes()->where('liked_user_id', $likedUser->id)->exists()) {
-            return response()->json(['message' => 'You have already liked this user.'], 400);
-        }
-
-        // Create a new like entry in the database
-        UserLike::create([
-            'user_id' => $user->id,
-            'liked_user_id' => $likedUser->id,
-        ]);
-
-        return response()->json(['message' => 'User liked successfully.']);
     }
 }
