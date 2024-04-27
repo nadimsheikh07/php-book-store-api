@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SignInRequest;
+use App\Http\Requests\SignUpRequest;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -41,18 +44,8 @@ class UserController extends Controller
         return response()->json($data);
     }
 
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users|max:255',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -67,22 +60,12 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        // Validate the request data
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users,email,' . $user->id,
-            // Add validation rules for other fields as needed
-        ]);
-
-        // Check for validation errors
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
+        // Validate the incoming request data
+        $validatedData = $request->validated();
         // Update the user
-        $user->update($validator->validated());
+        $user->update($validatedData);
 
         return response()->json(['message' => 'User updated successfully', 'user' => $user]);
     }
@@ -93,15 +76,10 @@ class UserController extends Controller
         return response()->json(['message' => 'User deleted successfully']);
     }
 
-    public function signup(Request $request)
+    public function signup(SignUpRequest $request)
     {
-        // Validate the request data
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users|max:255',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
-
+        // Validate the incoming request data
+        $validatedData = $request->validated();
         // Create a new user
         $user = User::create([
             'name' => $validatedData['name'],
@@ -115,14 +93,10 @@ class UserController extends Controller
         return response()->json(['message' => 'User signed up successfully', 'user' => $user]);
     }
 
-    public function signin(Request $request)
+    public function signin(SignInRequest $request)
     {
-        // Validate the request data
-        $validatedData = $request->validate([
-            'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:6',
-        ]);
-
+        // Validate the incoming request data
+        $validatedData = $request->validated();
         // Attempt to authenticate the user
         if (Auth::attempt(['email' => $validatedData['email'], 'password' => $validatedData['password']])) {
             // Authentication successful
