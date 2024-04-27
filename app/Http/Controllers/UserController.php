@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Builder;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -38,9 +36,9 @@ class UserController extends Controller
 
         // Paginate the results
         $pageSize = $request->input('page_size', 10);
-        $users = $query->paginate($pageSize);
+        $data = $query->paginate($pageSize);
 
-        return response()->json($users);
+        return response()->json($data);
     }
 
     public function store(Request $request)
