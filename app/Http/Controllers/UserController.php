@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+
+
+
     public function index(Request $request)
     {
         $query = User::query();
@@ -93,6 +96,28 @@ class UserController extends Controller
         return response()->json(['message' => 'User signed up successfully', 'user' => $user]);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/signin",
+     *     summary="Authenticate user and generate JWT token",
+     *     @OA\Parameter(
+     *         name="email",
+     *         in="query",
+     *         description="User's email",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="password",
+     *         in="query",
+     *         description="User's password",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(response="200", description="Login successful"),
+     *     @OA\Response(response="401", description="Invalid credentials")
+     * )
+     */
     public function signin(SignInRequest $request)
     {
         // Validate the incoming request data
