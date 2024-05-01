@@ -168,4 +168,10 @@ class UserController extends Controller
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
     }
+
+    public function profile()
+    {
+        $user = request()->user();
+        return response()->json(['user' => $user]);
+    }
 }
