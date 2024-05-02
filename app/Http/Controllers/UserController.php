@@ -125,8 +125,7 @@ class UserController extends Controller
             'password' => bcrypt($validatedData['password']),
         ]);
 
-        // Optionally, you can automatically sign in the user after signup
-        $user = Auth::user();
+        
         $token = $user->createToken('UserAuth')->accessToken;
 
         return response()->json(['message' => 'User signed up successfully', 'user' => $user, 'accessToken' => $token]);
