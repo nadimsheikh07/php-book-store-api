@@ -126,9 +126,10 @@ class UserController extends Controller
         ]);
 
         // Optionally, you can automatically sign in the user after signup
-        Auth::login($user);
+        $user = Auth::user();
+        $token = $user->createToken('UserAuth')->accessToken;
 
-        return response()->json(['message' => 'User signed up successfully', 'user' => $user]);
+        return response()->json(['message' => 'User signed up successfully', 'user' => $user, 'accessToken' => $token]);
     }
 
     /**
