@@ -121,6 +121,7 @@ class UserController extends Controller
         $user = User::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
+            'points' => 100,
             'password' => bcrypt($validatedData['password']),
         ]);
 
