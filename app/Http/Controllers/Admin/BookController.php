@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreBookRequest;
-use App\Http\Requests\UpdateBookRequest;
+use App\Http\Requests\Admin\StoreBookRequest;
+use App\Http\Requests\Admin\UpdateBookRequest;
 use App\Models\Book;
 use Illuminate\Http\Request;
 
