@@ -1,8 +1,7 @@
 <?php
 
-use App\Http\Controllers\BookController;
-use App\Http\Controllers\TagController;
-use App\Http\Controllers\UserController;
+namespace App\Http\Controllers\Admin;
+
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('user')->group(function () {

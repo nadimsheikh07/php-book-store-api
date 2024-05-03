@@ -1,20 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\StoreTagRequest;
-use App\Http\Requests\UpdateTagRequest;
-use App\Models\Tag;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\UpdateBookRequest;
+use App\Models\Book;
 use Illuminate\Http\Request;
 
-class TagController extends Controller
+class BookController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $query = Tag::query();
+        $query = Book::query();
 
         // Apply search filter
         if ($request->has('search')) {
@@ -46,54 +47,54 @@ class TagController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTagRequest $request)
+    public function store(StoreBookRequest $request)
     {
         // Validate the incoming request data
         $validatedData = $request->validated();
 
-        // Create a new tag instance with the validated data
-        $tag = Tag::create($validatedData);
+        // Create a new book instance with the validated data
+        $book = Book::create($validatedData);
 
         // Return a JSON response indicating success
-        return response()->json(['tag' => $tag, 'message' => 'Tag created successfully'], 201);
+        return response()->json(['book' => $book, 'message' => 'Book created successfully'], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Tag $tag)
+    public function show(Book $book)
     {
-        if (!$tag) {
-            return response()->json(['message' => 'Tag not found'], 404);
+        if (!$book) {
+            return response()->json(['message' => 'Book not found'], 404);
         }
 
-        return response()->json(['tag' => $tag], 200);
+        return response()->json(['book' => $book], 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTagRequest $request, Tag $tag)
+    public function update(UpdateBookRequest $request, Book $book)
     {
         // Validate the incoming request data
         $validatedData = $request->validated();
 
-        // Update the tag instance with the validated data
-        $tag->update($validatedData);
+        // Update the book instance with the validated data
+        $book->update($validatedData);
 
         // Return a JSON response indicating success
-        return response()->json(['tag' => $tag, 'message' => 'Tag updated successfully'], 200);
+        return response()->json(['book' => $book, 'message' => 'Book updated successfully'], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Tag $tag)
+    public function destroy(Book $book)
     {
-        // Delete the tag
-        $tag->delete();
+        // Delete the book
+        $book->delete();
 
         // Return a JSON response indicating success
-        return response()->json(['message' => 'Tag deleted successfully'], 200);
+        return response()->json(['message' => 'Book deleted successfully'], 200);
     }
 }
