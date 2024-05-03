@@ -13,7 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
         then: function () {
             Route::namespace ('Api')->prefix('api')->name('api.')->group(base_path('routes/api.php'));
             Route::namespace ('Auth')->prefix('auth')->name('auth.')->group(base_path('routes/auth.php'));
-            Route::namespace ('Admin')->prefix('admin')->name('admin.')->group(base_path('routes/admin.php'))->withMiddleware(['auth:api']);
+            Route::namespace ('Admin')->prefix('admin')->name('admin.')->group(base_path('routes/admin.php'))->middleware(['auth:api']);
             ;
         },
     )
