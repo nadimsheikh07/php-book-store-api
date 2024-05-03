@@ -9,13 +9,13 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__ . '/../routes/web.php',
         commands: __DIR__ . '/../routes/console.php',
-        api: __DIR__ . '/../routes/api.php',
         health: '/up',
-        /*
         then: function () {
-            Route::namespace ('API')->prefix('api')->name('api.')->group(base_path('routes/api.php'));
+            Route::namespace ('admin')->prefix('admin')->name('admin.')->group(base_path('routes/admin.php'));
+            Route::namespace ('api')->prefix('api')->name('api.')->group(base_path('routes/api.php'));
+            Route::namespace ('auth')->prefix('auth')->name('auth.')->group(base_path('routes/auth.php'));
         },
-        */
+
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
