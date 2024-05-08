@@ -37,6 +37,12 @@ class CartController extends Controller
         // Validate the incoming request data
         $validatedData = $request->validated();
 
+        $cart = Cart::where('book_id', $validatedData['book_id'])->first();
+
+        if ($cart) {
+            return response()->json(['message' => 'book already added'], 500);
+        }
+
         $validatedData['user_id'] = $userId;
 
         // Create a new cart instance with the validated data
