@@ -18,9 +18,11 @@ class CartController extends Controller
 
         $query = Cart::query();
 
+        $query->with(['book']);
+
         $query->where('user_id', $userId);
 
-        $data = $query->all();
+        $data = $query->get();
 
         return response()->json($data);
     }
