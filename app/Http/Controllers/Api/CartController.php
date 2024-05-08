@@ -40,7 +40,7 @@ class CartController extends Controller
         $cart = Cart::where('book_id', $validatedData['book_id'])->first();
 
         if ($cart) {
-            return response()->json(['message' => 'book already added'], 500);
+            return response()->json(['message' => 'Book already added'], 500);
         }
 
         $validatedData['user_id'] = $userId;
@@ -49,19 +49,21 @@ class CartController extends Controller
         $cart = Cart::create($validatedData);
 
         // Return a JSON response indicating success
-        return response()->json(['cart' => $cart, 'message' => 'cart created successfully'], 201);
+        return response()->json(['cart' => $cart, 'message' => 'Book added successfully'], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Cart $cart)
+    public function show($cart)
     {
+        $cart = Cart::findOrFail($cart);
+
         if (!$cart) {
-            return response()->json(['message' => 'cart not found'], 404);
+            return response()->json(['message' => 'Book not found'], 404);
         }
 
-        return response()->json(['cart' => $cart], 200);
+        return response()->json($cart, 200);
     }
 
     /**
@@ -79,18 +81,19 @@ class CartController extends Controller
         $cart->update($validatedData);
 
         // Return a JSON response indicating success
-        return response()->json(['cart' => $cart, 'message' => 'cart updated successfully'], 200);
+        return response()->json(['cart' => $cart, 'message' => 'Book updated successfully'], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cart $cart)
-    {
+    public function destroy($cart)
+    {        
+        $cart = Cart::findOrFail($cart);
         // Delete the cart
         $cart->delete();
 
         // Return a JSON response indicating success
-        return response()->json(['message' => 'cart deleted successfully'], 200);
+        return response()->json(['message' => 'Book deleted successfully'], 200);
     }
 }
